@@ -1,0 +1,562 @@
+Number of Teams: 45
+Team Names: ['Titan', 'Anarchy', 'Doom', 'Task Force', 'Rise', 'Brick Squad', 'Team Awesome', 'TC Boosh', 'Dynasty', 'Fortune', 'Outsiders', 'Kraken', 'Goat', 'Wrecking Ballz', 'Outlaws', 'Havoc', 'Reign Bros', 'Mt Olympus', 'Arsenal', 'Aftershock', 'Riot', 'Rogue', 'Grit', 'ARKM', 'Corruption', 'Space Cadets', 'Tigers', 'Double Tap', 'Notorious', 'Showtime', 'Blitz', 'Klutch Mode', 'Gamecocks', 'Night Shift', 'Kaiju', 'Roybots', 'Voodoo', 'Final Justice', 'Legacy', 'Precision', 'Wildcards', 'Category 5', 'Kryptic', 'Rage', 'Sin City Chosen']
+Max times sitting: 1
+Number of rounds required: 30
+Number of courts: 14
+Does everything look right? Yes or No.
+yes
+New schedule found with depth: 1 or 3 rounds.
+New schedule found with depth: 2 or 6 rounds.
+New schedule found with depth: 3 or 9 rounds.
+New schedule found with depth: 4 or 12 rounds.
+New schedule found with depth: 5 or 15 rounds.
+New schedule found with depth: 6 or 18 rounds.
+New schedule found with depth: 7 or 21 rounds.
+New schedule found with depth: 8 or 24 rounds.
+New schedule found with depth: 9 or 27 rounds.
+New schedule found with depth: 10 or 30 rounds.
+
+Round 1
+Titan vs. Anarchy reffed by Doom
+Task Force vs. Rise reffed by Brick Squad
+Team Awesome vs. TC Boosh reffed by Dynasty
+Fortune vs. Outsiders reffed by Kraken
+Goat vs. Wrecking Ballz reffed by Outlaws
+Havoc vs. Reign Bros reffed by Mt Olympus
+Arsenal vs. Aftershock reffed by Riot
+Rogue vs. Grit reffed by ARKM
+Corruption vs. Space Cadets reffed by Tigers
+Double Tap vs. Gamecocks reffed by Night Shift
+Notorious vs. Kaiju reffed by Roybots
+Showtime vs. Voodoo reffed by Final Justice
+Blitz vs. Legacy reffed by Precision
+Klutch Mode vs. Wildcards reffed by Category 5
+
+Round 2
+Titan vs. Doom reffed by Anarchy
+Task Force vs. Brick Squad reffed by Rise
+Team Awesome vs. Dynasty reffed by TC Boosh
+Fortune vs. Kraken reffed by Outsiders
+Goat vs. Outlaws reffed by Wrecking Ballz
+Havoc vs. Mt Olympus reffed by Reign Bros
+Arsenal vs. Riot reffed by Aftershock
+Rogue vs. ARKM reffed by Grit
+Corruption vs. Tigers reffed by Space Cadets
+Double Tap vs. Night Shift reffed by Gamecocks
+Notorious vs. Roybots reffed by Kaiju
+Showtime vs. Final Justice reffed by Voodoo
+Blitz vs. Precision reffed by Legacy
+Klutch Mode vs. Category 5 reffed by Wildcards
+
+Round 3
+Anarchy vs. Doom reffed by Titan
+Rise vs. Brick Squad reffed by Task Force
+TC Boosh vs. Dynasty reffed by Team Awesome
+Outsiders vs. Kraken reffed by Fortune
+Wrecking Ballz vs. Outlaws reffed by Goat
+Reign Bros vs. Mt Olympus reffed by Havoc
+Aftershock vs. Riot reffed by Arsenal
+Grit vs. ARKM reffed by Rogue
+Space Cadets vs. Tigers reffed by Corruption
+Gamecocks vs. Night Shift reffed by Double Tap
+Kaiju vs. Roybots reffed by Notorious
+Voodoo vs. Final Justice reffed by Showtime
+Legacy vs. Precision reffed by Blitz
+Wildcards vs. Category 5 reffed by Klutch Mode
+
+
+Round 4
+Sin City Chosen vs. Titan reffed by Task Force
+Rage vs. Anarchy reffed by Rise
+Kryptic vs. Doom reffed by Brick Squad
+Team Awesome vs. Fortune reffed by Goat
+TC Boosh vs. Outsiders reffed by Wrecking Ballz
+Dynasty vs. Kraken reffed by Outlaws
+Havoc vs. Arsenal reffed by Rogue
+Reign Bros vs. Aftershock reffed by Grit
+Mt Olympus vs. Riot reffed by ARKM
+Corruption vs. Gamecocks reffed by Kaiju
+Space Cadets vs. Night Shift reffed by Roybots
+Tigers vs. Voodoo reffed by Legacy
+Double Tap vs. Final Justice reffed by Precision
+Notorious vs. Wildcards reffed by Showtime
+
+Round 5
+Sin City Chosen vs. Task Force reffed by Titan
+Rage vs. Rise reffed by Anarchy
+Kryptic vs. Brick Squad reffed by Doom
+Team Awesome vs. Goat reffed by Fortune
+TC Boosh vs. Wrecking Ballz reffed by Outsiders
+Dynasty vs. Outlaws reffed by Kraken
+Havoc vs. Rogue reffed by Arsenal
+Reign Bros vs. Grit reffed by Aftershock
+Mt Olympus vs. ARKM reffed by Riot
+Corruption vs. Kaiju reffed by Gamecocks
+Space Cadets vs. Roybots reffed by Night Shift
+Tigers vs. Legacy reffed by Voodoo
+Double Tap vs. Precision reffed by Final Justice
+Notorious vs. Showtime reffed by Wildcards
+
+Round 6
+Titan vs. Task Force reffed by Sin City Chosen
+Anarchy vs. Rise reffed by Rage
+Doom vs. Brick Squad reffed by Kryptic
+Fortune vs. Goat reffed by Team Awesome
+Outsiders vs. Wrecking Ballz reffed by TC Boosh
+Kraken vs. Outlaws reffed by Dynasty
+Arsenal vs. Rogue reffed by Havoc
+Aftershock vs. Grit reffed by Reign Bros
+Riot vs. ARKM reffed by Mt Olympus
+Gamecocks vs. Kaiju reffed by Corruption
+Night Shift vs. Roybots reffed by Space Cadets
+Voodoo vs. Legacy reffed by Tigers
+Final Justice vs. Precision reffed by Double Tap
+Wildcards vs. Showtime reffed by Notorious
+
+
+Round 7
+Category 5 vs. Titan reffed by Rise
+Klutch Mode vs. Anarchy reffed by Task Force
+Blitz vs. Doom reffed by Team Awesome
+Sin City Chosen vs. Brick Squad reffed by TC Boosh
+Rage vs. Dynasty reffed by Fortune
+Kryptic vs. Outsiders reffed by Goat
+Kraken vs. Wrecking Ballz reffed by Havoc
+Outlaws vs. Reign Bros reffed by Arsenal
+Mt Olympus vs. Gamecocks reffed by Roybots
+Aftershock vs. Night Shift reffed by Kaiju
+Riot vs. Voodoo reffed by Precision
+Rogue vs. Final Justice reffed by Legacy
+Grit vs. Wildcards reffed by Corruption
+ARKM vs. Space Cadets reffed by Double Tap
+
+Round 8
+Category 5 vs. Rise reffed by Titan
+Klutch Mode vs. Task Force reffed by Anarchy
+Blitz vs. Team Awesome reffed by Doom
+Sin City Chosen vs. TC Boosh reffed by Brick Squad
+Rage vs. Fortune reffed by Dynasty
+Kryptic vs. Goat reffed by Outsiders
+Kraken vs. Havoc reffed by Wrecking Ballz
+Outlaws vs. Arsenal reffed by Reign Bros
+Mt Olympus vs. Roybots reffed by Gamecocks
+Aftershock vs. Kaiju reffed by Night Shift
+Riot vs. Precision reffed by Voodoo
+Rogue vs. Legacy reffed by Final Justice
+Grit vs. Corruption reffed by Wildcards
+ARKM vs. Double Tap reffed by Space Cadets
+
+Round 9
+Titan vs. Rise reffed by Category 5
+Anarchy vs. Task Force reffed by Klutch Mode
+Doom vs. Team Awesome reffed by Blitz
+Brick Squad vs. TC Boosh reffed by Sin City Chosen
+Dynasty vs. Fortune reffed by Rage
+Outsiders vs. Goat reffed by Kryptic
+Wrecking Ballz vs. Havoc reffed by Kraken
+Reign Bros vs. Arsenal reffed by Outlaws
+Gamecocks vs. Roybots reffed by Mt Olympus
+Night Shift vs. Kaiju reffed by Aftershock
+Voodoo vs. Precision reffed by Riot
+Final Justice vs. Legacy reffed by Rogue
+Wildcards vs. Corruption reffed by Grit
+Space Cadets vs. Double Tap reffed by ARKM
+
+
+Round 10
+Showtime vs. Titan reffed by Brick Squad
+Notorious vs. Anarchy reffed by Team Awesome
+Tigers vs. Doom reffed by Task Force
+Category 5 vs. TC Boosh reffed by Fortune
+Klutch Mode vs. Rise reffed by Dynasty
+Blitz vs. Outsiders reffed by Outlaws
+Sin City Chosen vs. Kraken reffed by Goat
+Rage vs. Wrecking Ballz reffed by Reign Bros
+Kryptic vs. Havoc reffed by Gamecocks
+Mt Olympus vs. Night Shift reffed by Voodoo
+Arsenal vs. Kaiju reffed by Final Justice
+Aftershock vs. Roybots reffed by Legacy
+Riot vs. Wildcards reffed by Space Cadets
+Rogue vs. Corruption reffed by Double Tap
+
+Round 11
+Showtime vs. Brick Squad reffed by Titan
+Notorious vs. Team Awesome reffed by Anarchy
+Tigers vs. Task Force reffed by Doom
+Category 5 vs. Fortune reffed by TC Boosh
+Klutch Mode vs. Dynasty reffed by Rise
+Blitz vs. Outlaws reffed by Outsiders
+Sin City Chosen vs. Goat reffed by Kraken
+Rage vs. Reign Bros reffed by Wrecking Ballz
+Kryptic vs. Gamecocks reffed by Havoc
+Mt Olympus vs. Voodoo reffed by Night Shift
+Arsenal vs. Final Justice reffed by Kaiju
+Aftershock vs. Legacy reffed by Roybots
+Riot vs. Space Cadets reffed by Wildcards
+Rogue vs. Double Tap reffed by Corruption
+
+Round 12
+Titan vs. Brick Squad reffed by Showtime
+Anarchy vs. Team Awesome reffed by Notorious
+Doom vs. Task Force reffed by Tigers
+TC Boosh vs. Fortune reffed by Category 5
+Rise vs. Dynasty reffed by Klutch Mode
+Outsiders vs. Outlaws reffed by Blitz
+Kraken vs. Goat reffed by Sin City Chosen
+Wrecking Ballz vs. Reign Bros reffed by Rage
+Havoc vs. Gamecocks reffed by Kryptic
+Night Shift vs. Voodoo reffed by Mt Olympus
+Kaiju vs. Final Justice reffed by Arsenal
+Roybots vs. Legacy reffed by Aftershock
+Wildcards vs. Space Cadets reffed by Riot
+Corruption vs. Double Tap reffed by Rogue
+
+
+Round 13
+Precision vs. Titan reffed by Team Awesome
+ARKM vs. Anarchy reffed by Brick Squad
+Grit vs. Doom reffed by Rise
+Showtime vs. Task Force reffed by TC Boosh
+Notorious vs. Dynasty reffed by Outsiders
+Tigers vs. Fortune reffed by Wrecking Ballz
+Category 5 vs. Kraken reffed by Reign Bros
+Klutch Mode vs. Goat reffed by Gamecocks
+Blitz vs. Night Shift reffed by Final Justice
+Sin City Chosen vs. Kaiju reffed by Voodoo
+Rage vs. Roybots reffed by Wildcards
+Kryptic vs. Legacy reffed by Outlaws
+Havoc vs. Aftershock reffed by Corruption
+Mt Olympus vs. Space Cadets reffed by Arsenal
+
+Round 14
+Precision vs. Team Awesome reffed by Titan
+ARKM vs. Brick Squad reffed by Anarchy
+Grit vs. Rise reffed by Doom
+Showtime vs. TC Boosh reffed by Task Force
+Notorious vs. Outsiders reffed by Dynasty
+Tigers vs. Wrecking Ballz reffed by Fortune
+Category 5 vs. Reign Bros reffed by Kraken
+Klutch Mode vs. Gamecocks reffed by Goat
+Blitz vs. Final Justice reffed by Night Shift
+Sin City Chosen vs. Voodoo reffed by Kaiju
+Rage vs. Wildcards reffed by Roybots
+Kryptic vs. Outlaws reffed by Legacy
+Havoc vs. Corruption reffed by Aftershock
+Mt Olympus vs. Arsenal reffed by Space Cadets
+
+Round 15
+Titan vs. Team Awesome reffed by Precision
+Anarchy vs. Brick Squad reffed by ARKM
+Doom vs. Rise reffed by Grit
+Task Force vs. TC Boosh reffed by Showtime
+Dynasty vs. Outsiders reffed by Notorious
+Fortune vs. Wrecking Ballz reffed by Tigers
+Kraken vs. Reign Bros reffed by Category 5
+Goat vs. Gamecocks reffed by Klutch Mode
+Night Shift vs. Final Justice reffed by Blitz
+Kaiju vs. Voodoo reffed by Sin City Chosen
+Roybots vs. Wildcards reffed by Rage
+Legacy vs. Outlaws reffed by Kryptic
+Aftershock vs. Corruption reffed by Havoc
+Space Cadets vs. Arsenal reffed by Mt Olympus
+
+
+Round 16
+Double Tap vs. Titan reffed by TC Boosh
+Rogue vs. Anarchy reffed by Dynasty
+Riot vs. Doom reffed by Fortune
+Precision vs. Task Force reffed by Outsiders
+ARKM vs. Rise reffed by Team Awesome
+Grit vs. Brick Squad reffed by Kraken
+Showtime vs. Goat reffed by Night Shift
+Notorious vs. Wrecking Ballz reffed by Gamecocks
+Tigers vs. Kaiju reffed by Wildcards
+Category 5 vs. Roybots reffed by Voodoo
+Klutch Mode vs. Final Justice reffed by Kryptic
+Blitz vs. Rage reffed by Sin City Chosen
+Outlaws vs. Havoc reffed by Space Cadets
+Reign Bros vs. Corruption reffed by Legacy
+
+Round 17
+Double Tap vs. TC Boosh reffed by Titan
+Rogue vs. Dynasty reffed by Anarchy
+Riot vs. Fortune reffed by Doom
+Precision vs. Outsiders reffed by Task Force
+ARKM vs. Team Awesome reffed by Rise
+Grit vs. Kraken reffed by Brick Squad
+Showtime vs. Night Shift reffed by Goat
+Notorious vs. Gamecocks reffed by Wrecking Ballz
+Tigers vs. Wildcards reffed by Kaiju
+Category 5 vs. Voodoo reffed by Roybots
+Klutch Mode vs. Kryptic reffed by Final Justice
+Blitz vs. Sin City Chosen reffed by Rage
+Outlaws vs. Space Cadets reffed by Havoc
+Reign Bros vs. Legacy reffed by Corruption
+
+Round 18
+Titan vs. TC Boosh reffed by Double Tap
+Anarchy vs. Dynasty reffed by Rogue
+Doom vs. Fortune reffed by Riot
+Task Force vs. Outsiders reffed by Precision
+Rise vs. Team Awesome reffed by ARKM
+Brick Squad vs. Kraken reffed by Grit
+Goat vs. Night Shift reffed by Showtime
+Wrecking Ballz vs. Gamecocks reffed by Notorious
+Kaiju vs. Wildcards reffed by Tigers
+Roybots vs. Voodoo reffed by Category 5
+Final Justice vs. Kryptic reffed by Klutch Mode
+Rage vs. Sin City Chosen reffed by Blitz
+Havoc vs. Space Cadets reffed by Outlaws
+Corruption vs. Legacy reffed by Reign Bros
+
+
+Round 19
+Aftershock vs. Titan reffed by Dynasty
+Arsenal vs. Anarchy reffed by TC Boosh
+Mt Olympus vs. Doom reffed by Outsiders
+Double Tap vs. Task Force reffed by Team Awesome
+Rogue vs. Rise reffed by Fortune
+Riot vs. Brick Squad reffed by Gamecocks
+Precision vs. Kraken reffed by Night Shift
+ARKM vs. Goat reffed by Kaiju
+Grit vs. Roybots reffed by Final Justice
+Showtime vs. Legacy reffed by Category 5
+Notorious vs. Voodoo reffed by Kryptic
+Tigers vs. Rage reffed by Klutch Mode
+Blitz vs. Wildcards reffed by Reign Bros
+Sin City Chosen vs. Wrecking Ballz reffed by Corruption
+
+Round 20
+Aftershock vs. Dynasty reffed by Titan
+Arsenal vs. TC Boosh reffed by Anarchy
+Mt Olympus vs. Outsiders reffed by Doom
+Double Tap vs. Team Awesome reffed by Task Force
+Rogue vs. Fortune reffed by Rise
+Riot vs. Gamecocks reffed by Brick Squad
+Precision vs. Night Shift reffed by Kraken
+ARKM vs. Kaiju reffed by Goat
+Grit vs. Final Justice reffed by Roybots
+Showtime vs. Category 5 reffed by Legacy
+Notorious vs. Kryptic reffed by Voodoo
+Tigers vs. Klutch Mode reffed by Rage
+Blitz vs. Reign Bros reffed by Wildcards
+Sin City Chosen vs. Corruption reffed by Wrecking Ballz
+
+Round 21
+Titan vs. Dynasty reffed by Aftershock
+Anarchy vs. TC Boosh reffed by Arsenal
+Doom vs. Outsiders reffed by Mt Olympus
+Task Force vs. Team Awesome reffed by Double Tap
+Rise vs. Fortune reffed by Rogue
+Brick Squad vs. Gamecocks reffed by Riot
+Kraken vs. Night Shift reffed by Precision
+Goat vs. Kaiju reffed by ARKM
+Roybots vs. Final Justice reffed by Grit
+Legacy vs. Category 5 reffed by Showtime
+Voodoo vs. Kryptic reffed by Notorious
+Rage vs. Klutch Mode reffed by Tigers
+Wildcards vs. Reign Bros reffed by Blitz
+Wrecking Ballz vs. Corruption reffed by Sin City Chosen
+
+
+Round 22
+Space Cadets vs. Titan reffed by Gamecocks
+Havoc vs. Anarchy reffed by Fortune
+Outlaws vs. Doom reffed by TC Boosh
+Aftershock vs. Task Force reffed by Voodoo
+Arsenal vs. Rise reffed by Night Shift
+Mt Olympus vs. Brick Squad reffed by Kaiju
+Double Tap vs. Dynasty reffed by Roybots
+Rogue vs. Team Awesome reffed by Wildcards
+Riot vs. Final Justice reffed by Category 5
+Precision vs. Kryptic reffed by Rage
+ARKM vs. Legacy reffed by Outsiders
+Grit vs. Sin City Chosen reffed by Tigers
+Showtime vs. Kraken reffed by Corruption
+Notorious vs. Reign Bros reffed by Goat
+Klutch Mode vs. Wrecking Ballz reffed by Blitz
+
+Round 23
+Space Cadets vs. Gamecocks reffed by Titan
+Havoc vs. Fortune reffed by Anarchy
+Outlaws vs. TC Boosh reffed by Doom
+Aftershock vs. Voodoo reffed by Task Force
+Arsenal vs. Night Shift reffed by Rise
+Mt Olympus vs. Kaiju reffed by Brick Squad
+Double Tap vs. Roybots reffed by Dynasty
+Rogue vs. Wildcards reffed by Team Awesome
+Riot vs. Category 5 reffed by Final Justice
+Precision vs. Rage reffed by Kryptic
+ARKM vs. Outsiders reffed by Legacy
+Grit vs. Tigers reffed by Sin City Chosen
+Showtime vs. Corruption reffed by Kraken
+Notorious vs. Goat reffed by Reign Bros
+Klutch Mode vs. Blitz reffed by Wrecking Ballz
+
+Round 24
+Titan vs. Gamecocks reffed by Space Cadets
+Anarchy vs. Fortune reffed by Havoc
+Doom vs. TC Boosh reffed by Outlaws
+Task Force vs. Voodoo reffed by Aftershock
+Rise vs. Night Shift reffed by Arsenal
+Brick Squad vs. Kaiju reffed by Mt Olympus
+Dynasty vs. Roybots reffed by Double Tap
+Team Awesome vs. Wildcards reffed by Rogue
+Final Justice vs. Category 5 reffed by Riot
+Kryptic vs. Rage reffed by Precision
+Legacy vs. Outsiders reffed by ARKM
+Sin City Chosen vs. Tigers reffed by Grit
+Kraken vs. Corruption reffed by Showtime
+Reign Bros vs. Goat reffed by Notorious
+Wrecking Ballz vs. Blitz reffed by Klutch Mode
+
+
+Round 25
+Space Cadets vs. Anarchy reffed by Kaiju
+Havoc vs. Titan reffed by Night Shift
+Outlaws vs. Task Force reffed by Gamecocks
+Aftershock vs. Doom reffed by Final Justice
+Arsenal vs. Brick Squad reffed by Team Awesome
+Mt Olympus vs. Rise reffed by Legacy
+Double Tap vs. Fortune reffed by Voodoo
+Rogue vs. Roybots reffed by TC Boosh
+Riot vs. Dynasty reffed by Kryptic
+Precision vs. Wildcards reffed by Goat
+ARKM vs. Category 5 reffed by Rage
+Grit vs. Outsiders reffed by Showtime
+Notorious vs. Sin City Chosen reffed by Klutch Mode
+Tigers vs. Kraken reffed by Blitz
+
+Round 26
+Space Cadets vs. Kaiju reffed by Anarchy
+Havoc vs. Night Shift reffed by Titan
+Outlaws vs. Gamecocks reffed by Task Force
+Aftershock vs. Final Justice reffed by Doom
+Arsenal vs. Team Awesome reffed by Brick Squad
+Mt Olympus vs. Legacy reffed by Rise
+Double Tap vs. Voodoo reffed by Fortune
+Rogue vs. TC Boosh reffed by Roybots
+Riot vs. Kryptic reffed by Dynasty
+Precision vs. Goat reffed by Wildcards
+ARKM vs. Rage reffed by Category 5
+Grit vs. Showtime reffed by Outsiders
+Notorious vs. Klutch Mode reffed by Sin City Chosen
+Tigers vs. Blitz reffed by Kraken
+
+Round 27
+Anarchy vs. Kaiju reffed by Space Cadets
+Titan vs. Night Shift reffed by Havoc
+Task Force vs. Gamecocks reffed by Outlaws
+Doom vs. Final Justice reffed by Aftershock
+Brick Squad vs. Team Awesome reffed by Arsenal
+Rise vs. Legacy reffed by Mt Olympus
+Fortune vs. Voodoo reffed by Double Tap
+Roybots vs. TC Boosh reffed by Rogue
+Dynasty vs. Kryptic reffed by Riot
+Wildcards vs. Goat reffed by Precision
+Category 5 vs. Rage reffed by ARKM
+Outsiders vs. Showtime reffed by Grit
+Sin City Chosen vs. Klutch Mode reffed by Notorious
+Kraken vs. Blitz reffed by Tigers
+
+
+Round 28
+Corruption vs. Titan reffed by Roybots
+Reign Bros vs. Anarchy reffed by Gamecocks
+Wrecking Ballz vs. Doom reffed by Night Shift
+Space Cadets vs. Task Force reffed by Final Justice
+Havoc vs. Rise reffed by Kaiju
+Outlaws vs. Brick Squad reffed by Voodoo
+Aftershock vs. Team Awesome reffed by Category 5
+Arsenal vs. Dynasty reffed by Legacy
+Mt Olympus vs. TC Boosh reffed by Precision
+Double Tap vs. Wildcards reffed by Outsiders
+Rogue vs. Kryptic reffed by Sin City Chosen
+Riot vs. Kraken reffed by Rage
+ARKM vs. Tigers reffed by Notorious
+Grit vs. Goat reffed by Blitz
+Showtime vs. Fortune reffed by Klutch Mode
+
+Round 29
+Corruption vs. Roybots reffed by Titan
+Reign Bros vs. Gamecocks reffed by Anarchy
+Wrecking Ballz vs. Night Shift reffed by Doom
+Space Cadets vs. Final Justice reffed by Task Force
+Havoc vs. Kaiju reffed by Rise
+Outlaws vs. Voodoo reffed by Brick Squad
+Aftershock vs. Category 5 reffed by Team Awesome
+Arsenal vs. Legacy reffed by Dynasty
+Mt Olympus vs. Precision reffed by TC Boosh
+Double Tap vs. Outsiders reffed by Wildcards
+Rogue vs. Sin City Chosen reffed by Kryptic
+Riot vs. Rage reffed by Kraken
+ARKM vs. Notorious reffed by Tigers
+Grit vs. Blitz reffed by Goat
+Showtime vs. Klutch Mode reffed by Fortune
+
+Round 30
+Titan vs. Roybots reffed by Corruption
+Anarchy vs. Gamecocks reffed by Reign Bros
+Doom vs. Night Shift reffed by Wrecking Ballz
+Task Force vs. Final Justice reffed by Space Cadets
+Rise vs. Kaiju reffed by Havoc
+Brick Squad vs. Voodoo reffed by Outlaws
+Team Awesome vs. Category 5 reffed by Aftershock
+Dynasty vs. Legacy reffed by Arsenal
+TC Boosh vs. Precision reffed by Mt Olympus
+Wildcards vs. Outsiders reffed by Double Tap
+Kryptic vs. Sin City Chosen reffed by Rogue
+Kraken vs. Rage reffed by Riot
+Tigers vs. Notorious reffed by ARKM
+Goat vs. Blitz reffed by Grit
+Fortune vs. Klutch Mode reffed by Showtime
+
+Titan sat 0 times
+Anarchy sat 0 times
+Doom sat 0 times
+Task Force sat 0 times
+Rise sat 0 times
+Brick Squad sat 0 times
+Team Awesome sat 0 times
+TC Boosh sat 0 times
+Dynasty sat 0 times
+Fortune sat 0 times
+Outsiders sat 0 times
+Kraken sat 0 times
+Goat sat 0 times
+Wrecking Ballz sat 1 times
+Outlaws sat 1 times
+Havoc sat 1 times
+Reign Bros sat 1 times
+Mt Olympus sat 1 times
+Arsenal sat 1 times
+Aftershock sat 1 times
+Riot sat 1 times
+Rogue sat 1 times
+Grit sat 1 times
+ARKM sat 1 times
+Corruption sat 1 times
+Space Cadets sat 1 times
+Tigers sat 1 times
+Double Tap sat 1 times
+Notorious sat 1 times
+Showtime sat 1 times
+Blitz sat 1 times
+Klutch Mode sat 1 times
+Gamecocks sat 0 times
+Night Shift sat 0 times
+Kaiju sat 0 times
+Roybots sat 0 times
+Voodoo sat 0 times
+Final Justice sat 0 times
+Legacy sat 0 times
+Precision sat 1 times
+Wildcards sat 0 times
+Category 5 sat 1 times
+Kryptic sat 1 times
+Rage sat 1 times
+Sin City Chosen sat 1 times
+
+Most times sitting: 1
+Least times sitting: 0
+CSV output to: coming soon
