@@ -4,12 +4,12 @@ import math
 
 num_teams = 42
 num_courts = 12
-num_rounds_needed = 30
+num_rounds_needed = 31
 
 teams = list(range(0, num_teams))
 primes = [1,2,3,5,7,11,13,17,19,23,29,31,27,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181]
 
-depth_needed = num_rounds_needed / 3;
+depth_needed = math.ceil(num_rounds_needed / 3)
 depth_hit = 0;
 
 predefined_state = []
