@@ -278,6 +278,7 @@ def sittingTeamsAllowedToSit(teams_remaining, cant_sit):
 
 def outputCSV():
 	printMatchups()
+	printTimesSat()
 	makeCSV()
 
 def printMatchups():
@@ -298,6 +299,21 @@ def printMatchups():
 			print(triplet.matchup3())
 		print()
 		i += 1
+
+def printTimesSat():
+	largest = 0
+	smallest = 100000000000
+	for team_num in range(0, num_teams):
+		print(team_names[team_num] + " sat " + str(times_sat[team_num]) + " times")
+		if times_sat[team_num] > largest:
+			largest = times_sat[team_num]
+		if times_sat[team_num] < smallest:
+			smallest = times_sat[team_num]
+
+	print()
+	print("Most times sitting: " + str(largest))
+	print("Least times sitting: " + str(smallest))
+
 
 def makeCSV():
 	print("CSV output to: coming soon")
