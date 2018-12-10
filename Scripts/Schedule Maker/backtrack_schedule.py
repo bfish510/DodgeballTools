@@ -21,7 +21,7 @@ progressive_print = False
 
 #state
 # We use primes for existence of a match already played.
-primes = [1,2,3,5,7,11,13,17,19,23,29,31,27,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181]
+primes = [1,2,3,5,7,11,13,17,19,23,29,31,27,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229]
 t_init = time.time()
 t1 = time.time()
 playable_team_chart = []
@@ -34,7 +34,7 @@ final_schedule = []
 depth_needed = 0
 max_times_sitting = 0
 teams = []
-times_sat = [0 for i in range(0, num_teams)]
+times_sat = []
 
 
 def init():
@@ -114,8 +114,8 @@ def update_globals():
 	global teams
 	global times_sat
 
-	max_times_sitting = math.ceil(((num_teams-(num_courts*3)) * num_rounds_needed)/num_teams)
 	depth_needed = math.ceil(num_rounds_needed / 3)
+	max_times_sitting = math.ceil(((num_teams-(num_courts*3)) * depth_needed)/num_teams)
 	teams = list(range(0, num_teams))
 	times_sat = [0 for i in range(0, num_teams)]
 
@@ -165,7 +165,7 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 					matchups_to_print.append(new_current_matchup)
 					if (current_depth > depth_hit):
 						depth_hit = current_depth;
-						print("New schedule found with depth: " + str(current_depth))
+						print("New schedule found with depth: " + str(current_depth) + " or " + str(current_depth * 3) + " rounds.")
 						print_new_best_state(matchups_to_print)
 					
 					(new_prioritized_teams, new_cant_sit, new_times_sat) = update_priority(prioritized_teams, cant_sit, times_sat, new_teams_remaining)
