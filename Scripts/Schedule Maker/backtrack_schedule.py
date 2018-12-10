@@ -281,17 +281,23 @@ def outputCSV():
 	makeCSV()
 
 def printMatchups():
+	i = 0
 	for triplet_round in final_schedule:
 		triplets = getTriplets(triplet_round)
+		print()
+		print("Round " + str(1 + i*3))
 		for triplet in triplets:
 			print(triplet.matchup1())
 		print()
+		print("Round " + str(2 + i*3))
 		for triplet in triplets:
 			print(triplet.matchup2())
 		print()
+		print("Round " + str(3 + i*3))
 		for triplet in triplets:
 			print(triplet.matchup3())
 		print()
+		i += 1
 
 def makeCSV():
 	print("CSV output to: coming soon")
