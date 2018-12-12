@@ -29,10 +29,11 @@ depth_hit = 0;
 matchups_to_print = []
 finished = False
 final_schedule = []
+groupingStrat = None
 
 #set by update globals
 depth_needed = 0
-max_times_sitting = 0
+max_rounds_sitting = 0
 teams = []
 times_sat = []
 
@@ -56,6 +57,8 @@ def help():
 	sys.exit(0)
 
 def read_terminal_params():
+	global groupingStrat
+
 	if debug:
 		print(str(sys.argv) + "\n")
 
@@ -74,6 +77,9 @@ def read_terminal_params():
 		for row in reader:
 			parseTeam(row)
 			parseProperty(row)
+
+		#special for now
+		groupingStrat = GroupingStrategy(TripletGrouping())
 
 	update_globals()
 
@@ -109,20 +115,20 @@ def parseProperty(row):
 			print(progressive_print)
 
 def update_globals():
-	global max_times_sitting
+	global max_rounds_sitting
 	global depth_needed
 	global teams
 	global times_sat
 
 	depth_needed = math.ceil(num_rounds_needed / 3)
-	max_times_sitting = math.ceil(((num_teams-(num_courts*3)) * depth_needed)/num_teams)
+	max_rounds_sitting = math.ceil(((num_teams-(num_courts*3)) * depth_needed)/num_teams)
 	teams = list(range(0, num_teams))
 	times_sat = [0 for i in range(0, num_teams)]
 
 def print_parameters():
 	print("Number of Teams: " 			+ str(num_teams))
 	print("Team Names: " 				+ str(team_names))
-	print("Max times sitting: " 		+ str(max_times_sitting))
+	print("Max times sitting: " 		+ str(max_rounds_sitting))
 	print("Number of rounds required: " + str(num_rounds_needed))
 	print("Number of courts: " 			+ str(num_courts))
 
@@ -147,7 +153,7 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 				return
 			
 			team2 = teams_to_play_remaining[y]
-			both_need = find_all_matching_needed_team(team1,team2,teams_remaining)
+			both_need = find_all_matching_needed_team(teams_remaining,team1,team2)
 			
 			for z in range(0, len(both_need)):
 				
@@ -199,7 +205,7 @@ def updateWhoSat(new_teams_remaining, times_sat):
 		times_sat[non_used_team] += 1
 	cant_sit = []
 	for team_num in range(0, num_teams):
-		if times_sat[team_num] == max_times_sitting:
+		if times_sat[team_num] == max_rounds_sitting:
 			cant_sit.append(team_num)
 	return cant_sit
 
@@ -261,8 +267,16 @@ def add_team_to_playable(t1,t2,t3):
 def find_first_playable_team(team_pos_1, teams_remaining):
 	return list(set.intersection(set(playable_team_chart[team_pos_1]), set(teams_remaining)))
 
-def find_all_matching_needed_team(team_pos_1, team_pos_2, teams_remaining):
-	return list(set.intersection(set(playable_team_chart[team_pos_1]), set(playable_team_chart[team_pos_2]), set(teams_remaining)))
+def find_all_matching_needed_team(teams_remaining, *teams):
+	matching = set(teams_remaining)
+
+	if len(matching) == 0:
+		return list()
+
+	for team in teams:
+		matching = set.intersection(set(matching), set(playable_team_chart[team]))
+
+	return list(matching)
 
 def printableNewCurrentMatchup(new_current_matchup):
 	return str(new_current_matchup[0]) + "," + str(new_current_matchup[1]) + "," + str(new_current_matchup[2])
@@ -348,6 +362,20 @@ class Matchup():
 	def __str__(self):
 		return self.team1 + " vs. " + self.team2 + " reffed by " + self.ref 
 				
+
+class GroupingStrategy():
+
+	def __init__(self, groupingImpl):
+		self.groupingImpl = groupingImpl
+
+
+
+class TripletGrouping():
+
+	def __init__(self):
+		self.numTeamsInGroup = 3
+	
+
 
 init()
 backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat)
