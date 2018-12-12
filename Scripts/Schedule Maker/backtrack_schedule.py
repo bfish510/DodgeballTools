@@ -140,52 +140,40 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 	global finished
 	global final_schedule
 
-	for x in range(0,len(teams_remaining)):
-		if finished:
-			return
+	nextGrouping = groupingStrat.getNextGrouping(None, teams_remaining)
+	print("Next Grouping: " + str(nextGrouping))
+
+	while nextGrouping is not None and not finished:
+		team1 = nextGrouping[0]
+		team2 = nextGrouping[1]
+		team3 = nextGrouping[2]
+
+		(new_current_matchup, new_teams_remaining) = update_state(team1, team2, team3, teams_remaining, current_matchup)
 		
-		team1 = teams_remaining[x]
-		teams_to_play_remaining = find_first_playable_team(team1, teams_remaining)
+		if debug:
+			print("New Teams Remaining: " + str(new_teams_remaining))
 		
-		for y in range(0,len(teams_to_play_remaining)):
+		if new_matchup_found(new_teams_remaining, teams, cant_sit, new_current_matchup):
+			matchups_to_print.append(new_current_matchup)
+			if (current_depth > depth_hit):
+				depth_hit = current_depth;
+				print("New schedule found with depth: " + str(current_depth) + " or " + str(current_depth * 3) + " rounds.")
+				print_new_best_state(matchups_to_print)
 			
-			if finished:
-				return
+			(new_prioritized_teams, new_cant_sit, new_times_sat) = update_priority(prioritized_teams, cant_sit, times_sat, new_teams_remaining)
 			
-			team2 = teams_to_play_remaining[y]
-			both_need = find_all_matching_needed_team(teams_remaining,team1,team2)
-			
-			for z in range(0, len(both_need)):
-				
-				if finished:
-					return
+			if current_depth == depth_needed:
+				finished = True
+				final_schedule = list(matchups_to_print)
 
-				team3 = both_need[z]
+			backtrack_schedule_depth(new_prioritized_teams, current_depth + 1, depth_needed, [], new_prioritized_teams, new_cant_sit, new_times_sat)
+			matchups_to_print.pop()
+		else:
+			backtrack_schedule_depth(new_teams_remaining, current_depth, depth_needed, new_current_matchup, prioritized_teams, cant_sit, times_sat)
+		
+		add_team_to_playable(team1, team2, team3)
 
-				(new_current_matchup, new_teams_remaining) = update_state(team1, team2, team3, teams_remaining, current_matchup)
-				
-				if debug:
-					print("New Teams Remaining: " + str(new_teams_remaining))
-				
-				if new_matchup_found(new_teams_remaining, teams, cant_sit, new_current_matchup):
-					matchups_to_print.append(new_current_matchup)
-					if (current_depth > depth_hit):
-						depth_hit = current_depth;
-						print("New schedule found with depth: " + str(current_depth) + " or " + str(current_depth * 3) + " rounds.")
-						print_new_best_state(matchups_to_print)
-					
-					(new_prioritized_teams, new_cant_sit, new_times_sat) = update_priority(prioritized_teams, cant_sit, times_sat, new_teams_remaining)
-					
-					if current_depth == depth_needed:
-						finished = True
-						final_schedule = list(matchups_to_print)
-
-					backtrack_schedule_depth(new_prioritized_teams, current_depth + 1, depth_needed, [], new_prioritized_teams, new_cant_sit, new_times_sat)
-					matchups_to_print.pop()
-				else:
-					backtrack_schedule_depth(new_teams_remaining, current_depth, depth_needed, new_current_matchup, prioritized_teams, cant_sit, times_sat)
-				
-				add_team_to_playable(team1, team2, team3)
+		nextGrouping = groupingStrat.getNextGrouping(nextGrouping, teams_remaining)
 
 def update_priority(prioritized_teams, cant_sit, times_sat, new_teams_remaining):
 	new_prioritized_teams = list(prioritized_teams)
@@ -368,6 +356,12 @@ class GroupingStrategy():
 	def __init__(self, groupingImpl):
 		self.groupingImpl = groupingImpl
 
+	def getInitialGrouping(self, teams_remaining):
+		return self.groupingImpl.getInitialGrouping(teams_remaining)
+
+
+	def getNextGrouping(self, prevGrouping, teams_remaining):
+		return self.groupingImpl.getNextGrouping(prevGrouping, teams_remaining)
 
 
 class TripletGrouping():
@@ -375,7 +369,38 @@ class TripletGrouping():
 	def __init__(self):
 		self.numTeamsInGroup = 3
 	
+	def getInitialGrouping(self, teams_remaining):
+		for x in range(0,len(teams_remaining)):
+			team1 = teams_remaining[x]
+			teams_to_play_remaining = find_first_playable_team(team1, teams_remaining)
+			for y in range(0,len(teams_to_play_remaining)):
+				team2 = teams_to_play_remaining[y]
+				both_need = find_all_matching_needed_team(teams_remaining,team1,team2)
+				
+				for z in range(0, len(both_need)):
+					team3 = both_need[z]
+					init = [team1, team2, team3]
+					return init
 
+		return None
+
+	def getNextGrouping(self, prevGrouping, teams_remaining):
+		if prevGrouping == None:
+			return self.getInitialGrouping(teams_remaining)
+
+		for x in range(prevGrouping[0],len(teams_remaining)):
+			team1 = teams_remaining[x]
+			teams_to_play_remaining = find_first_playable_team(team1, teams_remaining)
+			for y in range(prevGrouping[1],len(teams_to_play_remaining)):
+				team2 = teams_to_play_remaining[y]
+				both_need = find_all_matching_needed_team(teams_remaining,team1,team2)
+				
+				for z in range(prevGrouping[2], len(both_need)):
+					team3 = both_need[z]
+					init = [team1, team2, team3]
+					return init
+
+		return None
 
 init()
 backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat)
