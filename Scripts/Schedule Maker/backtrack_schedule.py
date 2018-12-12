@@ -199,10 +199,7 @@ def print_new_best_state(matchups_to_print):
 	for m2p in matchups_to_print:
 		print()
 		for ncm in m2p:
-			if readable_printout:
-				print(printableNewCurrentMatchup(ncm))
-			if sheets_printout:
-				print(printableNewCurrentMatchupForGoogleSheets(ncm))
+			printNewCurrentMatchup(ncm)
 
 def new_matchup_found(new_teams_remaining, teams, cant_sit, new_current_matchup):
 	return ((len(new_teams_remaining) == (len(teams) % groupingStrat.get_num_teams_in_group())) or allCourtsFilled(new_current_matchup)) and sittingTeamsAllowedToSit(new_teams_remaining, cant_sit)
@@ -240,11 +237,11 @@ def find_all_matching_needed_team(teams_remaining, *teams):
 
 	return list(matching)
 
-def printableNewCurrentMatchup(new_current_matchup):
-	return str(new_current_matchup[0]) + "," + str(new_current_matchup[1]) + "," + str(new_current_matchup[2])
-
-def printableNewCurrentMatchupForGoogleSheets(new_current_matchup):
-	return str(new_current_matchup[0]) + "\t" + str(new_current_matchup[1]) + "\t" + str(new_current_matchup[2])
+def printNewCurrentMatchup(new_current_matchup):
+	teams = []
+	for x in new_current_matchup:
+		teams.append(team_names[x])
+	print("\t".join(teams))
 
 def sittingTeamsAllowedToSit(teams_remaining, cant_sit):
 	for team in cant_sit:
