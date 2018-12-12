@@ -79,7 +79,7 @@ def read_terminal_params():
 			parseProperty(row)
 
 		#special for now
-		groupingStrat = GroupingStrategy(TripletGrouping())
+		groupingStrat = GroupingStrategy(TripletGroupingStrategy())
 
 	update_globals()
 
@@ -120,8 +120,8 @@ def update_globals():
 	global teams
 	global times_sat
 
-	depth_needed = math.ceil(num_rounds_needed / 3)
-	max_rounds_sitting = math.ceil(((num_teams-(num_courts*3)) * depth_needed)/num_teams)
+	depth_needed = math.ceil(num_rounds_needed / groupingStrat.get_rounds_per_depth())
+	max_rounds_sitting = math.ceil(((num_teams - (num_courts * groupingStrat.get_num_teams_in_group())) * depth_needed)/num_teams)
 	teams = list(range(0, num_teams))
 	times_sat = [0 for i in range(0, num_teams)]
 
@@ -141,14 +141,9 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 	global final_schedule
 
 	nextGrouping = groupingStrat.getNextGrouping(None, teams_remaining)
-	print("Next Grouping: " + str(nextGrouping))
 
 	while nextGrouping is not None and not finished:
-		team1 = nextGrouping[0]
-		team2 = nextGrouping[1]
-		team3 = nextGrouping[2]
-
-		(new_current_matchup, new_teams_remaining) = update_state(team1, team2, team3, teams_remaining, current_matchup)
+		(new_current_matchup, new_teams_remaining) = update_state(nextGrouping, teams_remaining, current_matchup)
 		
 		if debug:
 			print("New Teams Remaining: " + str(new_teams_remaining))
@@ -157,7 +152,7 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 			matchups_to_print.append(new_current_matchup)
 			if (current_depth > depth_hit):
 				depth_hit = current_depth;
-				print("New schedule found with depth: " + str(current_depth) + " or " + str(current_depth * 3) + " rounds.")
+				print("New schedule found with depth: " + str(current_depth) + " or " + str(current_depth * groupingStrat.get_rounds_per_depth()) + " rounds.")
 				print_new_best_state(matchups_to_print)
 			
 			(new_prioritized_teams, new_cant_sit, new_times_sat) = update_priority(prioritized_teams, cant_sit, times_sat, new_teams_remaining)
@@ -171,7 +166,7 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 		else:
 			backtrack_schedule_depth(new_teams_remaining, current_depth, depth_needed, new_current_matchup, prioritized_teams, cant_sit, times_sat)
 		
-		add_team_to_playable(team1, team2, team3)
+		groupingStrat.add_grouping_to_playable(nextGrouping)
 
 		nextGrouping = groupingStrat.getNextGrouping(nextGrouping, teams_remaining)
 
@@ -210,47 +205,26 @@ def print_new_best_state(matchups_to_print):
 				print(printableNewCurrentMatchupForGoogleSheets(ncm))
 
 def new_matchup_found(new_teams_remaining, teams, cant_sit, new_current_matchup):
-	return ((len(new_teams_remaining) == (len(teams) % 3)) or allCourtsFilled(new_current_matchup)) and sittingTeamsAllowedToSit(new_teams_remaining, cant_sit)
+	return ((len(new_teams_remaining) == (len(teams) % groupingStrat.get_num_teams_in_group())) or allCourtsFilled(new_current_matchup)) and sittingTeamsAllowedToSit(new_teams_remaining, cant_sit)
 
 def allCourtsFilled(new_current_matchup):
 	return len(new_current_matchup) == num_courts
 
-def update_state(team1, team2, team3, teams_remaining, current_matchup):
-	remove_team_from_playable(team1, team2, team3)
+def update_state(grouping, teams_remaining, current_matchup):
+	groupingStrat.remove_grouping_from_playable(grouping)
 
 	if debug:
 		print("Team Remaining: " + str(teams_remaining))
 		
 	new_current_matchup = list(current_matchup)
-	new_current_matchup.append([team1, team2, team3])
+	new_current_matchup.append(grouping)
+	
 	new_teams_remaining = list(teams_remaining)
 
-	new_teams_remaining.remove(team1)
-	new_teams_remaining.remove(team2)
-	new_teams_remaining.remove(team3)
+	for team in grouping:
+		new_teams_remaining.remove(team)
 
 	return (new_current_matchup, new_teams_remaining)
-
-
-def remove_team_from_playable(t1,t2,t3):
-	global playable_team_chart
-
-	playable_team_chart[t1].remove(t2)
-	playable_team_chart[t1].remove(t3)
-	playable_team_chart[t2].remove(t1)
-	playable_team_chart[t2].remove(t3)
-	playable_team_chart[t3].remove(t1)
-	playable_team_chart[t3].remove(t2)
-
-def add_team_to_playable(t1,t2,t3):
-	global playable_team_chart
-
-	playable_team_chart[t1].append(t2)
-	playable_team_chart[t1].append(t3)
-	playable_team_chart[t2].append(t1)
-	playable_team_chart[t2].append(t3)
-	playable_team_chart[t3].append(t1)
-	playable_team_chart[t3].append(t2)
 
 def find_first_playable_team(team_pos_1, teams_remaining):
 	return list(set.intersection(set(playable_team_chart[team_pos_1]), set(teams_remaining)))
@@ -285,26 +259,26 @@ def outputCSV():
 
 def printMatchups():
 	i = 0
-	for triplet_round in final_schedule:
-		triplets = getTriplets(triplet_round)
-		print()
-		print("Round " + str(1 + i*3))
-		for triplet in triplets:
-			print(triplet.matchup1())
-		print()
-		print("Round " + str(2 + i*3))
-		for triplet in triplets:
-			print(triplet.matchup2())
-		print()
-		print("Round " + str(3 + i*3))
-		for triplet in triplets:
-			print(triplet.matchup3())
-		print()
-		i += 1
+	for schedule_group_round in final_schedule:
+		groupings = getGroupings(schedule_group_round)
+
+		all_groups_matchups = []
+		for group in groupings:
+			all_groups_matchups.append(groupingStrat.get_matchups_for_grouping(group))
+
+		rotated = list(zip(*all_groups_matchups))
+
+		for schedule_round in rotated:
+			print()
+			print("Round " + str(1 + i))
+			for matchup in schedule_round:
+				print(matchup)
+			i += 1
 
 def printTimesSat():
 	largest = 0
 	smallest = 100000000000
+	print()
 	for team_num in range(0, num_teams):
 		print(team_names[team_num] + " sat " + str(times_sat[team_num]) + " times")
 		if times_sat[team_num] > largest:
@@ -320,26 +294,15 @@ def printTimesSat():
 def makeCSV():
 	print("CSV output to: coming soon")
 
-def getTriplets(triplet_round):
-	triplets = []
-	for triplet in triplet_round:
-		triplets.append(Triplet(triplet[0], triplet[1], triplet[2]))
-	return triplets
+def getGroupings(schedule_round):
+	groupings = []
+	for grouping in schedule_round:
+		groupings.append(Grouping(*grouping))
+	return groupings
 
-class Triplet():
-	def __init__(self, team1, team2, team3):
-		self.team1 = team_names[team1]
-		self.team2 = team_names[team2]
-		self.team3 = team_names[team3]
-
-	def matchup1(self):
-		return Matchup(self.team1, self.team2, self.team3)
-
-	def matchup2(self):
-		return Matchup(self.team1, self.team3, self.team2)
-	
-	def matchup3(self):
-		return Matchup(self.team2, self.team3, self.team1)
+class Grouping():
+	def __init__(self, *teams):
+		self.teams = teams
 
 class Matchup():
 	def __init__(self, team1, team2, ref):
@@ -348,7 +311,10 @@ class Matchup():
 		self.ref = ref
 
 	def __str__(self):
-		return self.team1 + " vs. " + self.team2 + " reffed by " + self.ref 
+		return self.team1 + " vs. " + self.team2 + " reffed by " + self.ref
+
+	def __repr__(self):
+		return self.team1 + " vs. " + self.team2 + " reffed by " + self.ref
 				
 
 class GroupingStrategy():
@@ -363,8 +329,22 @@ class GroupingStrategy():
 	def getNextGrouping(self, prevGrouping, teams_remaining):
 		return self.groupingImpl.getNextGrouping(prevGrouping, teams_remaining)
 
+	def add_grouping_to_playable(self, grouping):
+		return self.groupingImpl.add_grouping_to_playable(grouping)
 
-class TripletGrouping():
+	def remove_grouping_from_playable(self, grouping):
+		return self.groupingImpl.remove_grouping_from_playable(grouping)
+
+	def get_rounds_per_depth(self):
+		return self.groupingImpl.get_rounds_per_depth()
+
+	def get_num_teams_in_group(self):
+		return self.groupingImpl.get_num_teams_in_group()
+
+	def get_matchups_for_grouping(self, grouping):
+		return self.groupingImpl.get_matchups_for_grouping(grouping)
+
+class TripletGroupingStrategy():
 
 	def __init__(self):
 		self.numTeamsInGroup = 3
@@ -401,6 +381,52 @@ class TripletGrouping():
 					return init
 
 		return None
+
+	def add_grouping_to_playable(self, grouping):
+		global playable_team_chart
+
+		t1 = grouping[0]
+		t2 = grouping[1]
+		t3 = grouping[2]
+	
+		playable_team_chart[t1].append(t2)
+		playable_team_chart[t1].append(t3)
+		
+		playable_team_chart[t2].append(t1)
+		playable_team_chart[t2].append(t3)
+		
+		playable_team_chart[t3].append(t1)
+		playable_team_chart[t3].append(t2)
+
+	def remove_grouping_from_playable(self, grouping):
+		global playable_team_chart
+
+		t1 = grouping[0]
+		t2 = grouping[1]
+		t3 = grouping[2]
+	
+		playable_team_chart[t1].remove(t2)
+		playable_team_chart[t1].remove(t3)
+		
+		playable_team_chart[t2].remove(t1)
+		playable_team_chart[t2].remove(t3)
+		
+		playable_team_chart[t3].remove(t1)
+		playable_team_chart[t3].remove(t2)
+
+	def get_rounds_per_depth(self):
+		# n! / (n - r)! -> 3! / (3 - 1)! -> 6 / 2 -> 3
+		return 3
+
+	def get_num_teams_in_group(self):
+		return self.numTeamsInGroup
+
+	def get_matchups_for_grouping(self, grouping):
+		matchups = []
+		matchups.append(Matchup(team_names[grouping.teams[0]], team_names[grouping.teams[1]], team_names[grouping.teams[2]]))
+		matchups.append(Matchup(team_names[grouping.teams[0]], team_names[grouping.teams[2]], team_names[grouping.teams[1]]))
+		matchups.append(Matchup(team_names[grouping.teams[1]], team_names[grouping.teams[2]], team_names[grouping.teams[0]]))
+		return matchups
 
 init()
 backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat)
