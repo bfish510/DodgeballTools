@@ -21,8 +21,6 @@ progressive_print = False
 #state
 # We use primes for existence of a match already played.
 primes = [1,2,3,5,7,11,13,17,19,23,29,31,27,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229]
-t_init = time.time()
-t1 = time.time()
 playable_team_chart = []
 depth_hit = 0;
 matchups_to_print = []
@@ -42,6 +40,30 @@ times_sat = []
 #debugging helpers
 last_call_at_depth = []
 
+def clear_state():
+	global groupingStrat 
+	global team_names
+	global num_teams
+	global num_courts
+	global num_rounds_needed
+	global depth_hit
+	global matchups_to_print
+	global playable_team_chart
+	global finished
+	global final_schedule
+
+	groupingStrat = None
+	team_names = []
+	num_teams = 0
+	num_courts = 0
+	num_rounds_needed = 0
+	depth_hit = 0
+	matchups_to_print = []
+	playable_team_chart = []
+	finished = False
+	final_schedule = []
+
+
 def init():
 	read_terminal_params()
 	print_parameters()
@@ -55,9 +77,35 @@ def init():
 		del playable_teams[team_number]
 		playable_team_chart.append(playable_teams)
 
-def init_direct():
-	read_terminal_params()
+def init_direct(depth, n_teams, t_names, grouping, team_ref, n_courts):
+	global groupingStrat 
+	global team_names
+	global num_teams
+	global num_courts
+	global num_rounds_needed
+	
+	if grouping == "double":
+		print("double")
+		groupingStrat = GroupingStrategy(DoublesGroupingStrategy(team_ref))
+	elif grouping == "triple":
+		print("triple")
+		groupingStrat = GroupingStrategy(TripletGroupingStrategy())
+	else:
+		print("else")
+		groupingStrat = GroupingStrategy(TripletGroupingStrategy())
+
+	num_rounds_needed = depth
+	num_teams = n_teams
+	num_courts = n_courts
+
+	if t_names is None:
+		for x in range(0, n_teams):
+			team_names.append("Team " + str(x))
+	else:
+		team_names = t_names
+
 	print_parameters()
+	update_globals()
 
 	for team_number in range(0,len(teams)):
 		playable_teams = list(range(0,len(teams)))
@@ -214,6 +262,8 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 
 		prev_grouping = list(nextGrouping)
 		nextGrouping = groupingStrat.getNextGrouping(prev_grouping, teams_remaining, prioritized_refs)
+
+	return finished
 
 def update_prioritized_teams(prioritized_teams, new_teams_remaining):
 	new_prioritized_teams = list(prioritized_teams)
@@ -697,12 +747,18 @@ class DoublesGroupingStrategy():
 		for index in range(0,num_teams):
 			print(team_names[index] + " played " + str(play_count[index]) + " times.")
 
-def python_call():
-	init_direct()
-	backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
+def python_call(depth, num_teams, team_names, grouping, team_ref, num_courts):
+	clear_state()
+	init_direct(depth, num_teams, team_names, grouping, team_ref, num_courts)
+	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
 	outputCSV()
+	return finished
 
 if __name__ == '__main__':
+	clear_state()
 	init()
-	backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
-	outputCSV()
+	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
+	if finished:
+		outputCSV()
+	else:
+		print("failed to find schedule")
