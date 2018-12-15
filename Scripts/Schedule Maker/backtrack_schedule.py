@@ -256,7 +256,7 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 			backtrack_schedule_depth(new_prioritized_teams, current_depth + 1, depth_needed, [], new_prioritized_teams, new_cant_sit, new_times_sat, new_prioritized_refs, call_depth+1)
 			matchups_to_print.pop()
 		else:
-			backtrack_schedule_depth(new_teams_remaining, current_depth, depth_needed, new_current_matchup, prioritized_teams, cant_sit, times_sat, prioritized_refs, call_depth + 1)
+			backtrack_schedule_depth(new_teams_remaining, current_depth, depth_needed, new_current_matchup, new_prioritized_teams, cant_sit, times_sat, prioritized_refs, call_depth + 1)
 		
 		groupingStrat.add_grouping_to_playable(nextGrouping)
 

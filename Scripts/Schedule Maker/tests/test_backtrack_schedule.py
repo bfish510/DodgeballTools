@@ -13,10 +13,15 @@ class TestStringMethods(unittest.TestCase):
 
     def test_success_triple_nine_teams_three_courts_three_rounds(self):
         found = backtrack_schedule.python_call(3, 9, None, "triple", True, 3)
-        self.assertEqual(found, True) 
+        self.assertEqual(found, True)
 
     def test_success_triple_nine_teams_three_courts_nine_rounds(self):
-        found = backtrack_schedule.python_call(3, 9, None, "triple", True, 3)
+        found = backtrack_schedule.python_call(9, 9, None, "triple", True, 3)
+        self.assertEqual(found, True)
+
+    @unittest.skip("demonstrating skipping")
+    def test_success_double_nine_teams_three_courts_nine_rounds(self):
+        found = backtrack_schedule.python_call(9, 9, None, "double", True, 3)
         self.assertEqual(found, True)
 
 if __name__ == '__main__':
