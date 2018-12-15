@@ -180,7 +180,6 @@ def parseProperty(row):
 		if prop == "Show Progressive Results":
 			if prop_val.lower() == "true": 
 				progressive_print = True
-	progressive_print = True
 
 def update_globals():
 	global max_rounds_sitting
@@ -566,12 +565,11 @@ class TripletGroupingStrategy():
 			for y in range(prevGrouping[1],len(teams_to_play_remaining)):
 				team2 = teams_to_play_remaining[y]
 				both_need = find_all_matching_needed_team(teams_remaining,team1,team2)
-				
-				if prevGrouping[2] + 1 <= len(both_need):
-					for z in range(prevGrouping[2], len(both_need)):
-						team3 = both_need[z]
-						init = [team1, team2, team3]
-						return init
+
+				for z in range(prevGrouping[2], len(both_need)):
+					team3 = both_need[z]
+					init = [team1, team2, team3]
+					return init
 
 		return None
 
@@ -699,12 +697,11 @@ class DoublesGroupingStrategy():
 				
 				ref_candidates = find_potential_refs(teams_remaining, prioritized_refs, team1, team2)
 				
-				if prevGrouping[2] + 1 <= len(ref_candidates):
-					for z in range(prevGrouping[2], len(ref_candidates)):
-						ref = ref_candidates[z]
-						debug("Ref", ref)
-						init = [team1, team2, ref]
-						return init
+				for z in range(prevGrouping[2], len(ref_candidates)):
+					ref = ref_candidates[z]
+					debug("Ref", ref)
+					init = [team1, team2, ref]
+					return init
 
 		return None
 
