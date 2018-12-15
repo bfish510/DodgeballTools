@@ -55,6 +55,15 @@ def init():
 		del playable_teams[team_number]
 		playable_team_chart.append(playable_teams)
 
+def init_direct():
+	read_terminal_params()
+	print_parameters()
+
+	for team_number in range(0,len(teams)):
+		playable_teams = list(range(0,len(teams)))
+		del playable_teams[team_number]
+		playable_team_chart.append(playable_teams)
+
 def help():
 	print("Goto X and get the google sheet that you can use to fill in the needed parameters.")
 	print("To run use command\n\tbacktrack_schedule.py fileName.csv")
@@ -74,6 +83,16 @@ def read_terminal_params():
 	if sys.argv[1] == "--help":
 		help()
 
+	if len(sys.argv) == 3:
+		if sys.argv[2] == "--double":
+			groupingStrat = GroupingStrategy(DoublesGroupingStrategy(True))
+		elif sys.argv[2] == "--triple":
+			groupingStrat = GroupingStrategy(TripletGroupingStrategy())
+		else:
+			groupingStrat = GroupingStrategy(TripletGroupingStrategy())
+	else:
+		groupingStrat = GroupingStrategy(TripletGroupingStrategy())
+
 	filename = sys.argv[1]
 	file = Path.cwd().joinpath(filename)
 	with open(file.name) as csvfile:
@@ -81,10 +100,6 @@ def read_terminal_params():
 		for row in reader:
 			parseTeam(row)
 			parseProperty(row)
-
-		#special for now
-		#groupingStrat = GroupingStrategy(DoublesGroupingStrategy(True))
-		groupingStrat = GroupingStrategy(TripletGroupingStrategy())
 
 	update_globals()
 
@@ -682,8 +697,12 @@ class DoublesGroupingStrategy():
 		for index in range(0,num_teams):
 			print(team_names[index] + " played " + str(play_count[index]) + " times.")
 
+def python_call():
+	init_direct()
+	backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
+	outputCSV()
 
-
-init()
-backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
-outputCSV()
+if __name__ == '__main__':
+	init()
+	backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
+	outputCSV()
