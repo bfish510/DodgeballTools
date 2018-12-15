@@ -214,7 +214,7 @@ def update_last_call_at_depth(call_depth):
 	for i in range(call_depth + 1, len(last_call_at_depth)):
 		last_call_at_depth[i] = 0
 
-def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, current_matchup, prioritized_teams, cant_sit, times_sat, prioritized_refs, call_depth):
+def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, current_matchup, prioritized_teams, cant_sit, times_sat, call_depth):
 	global depth_hit
 	global matchups_to_print
 	global t1
@@ -222,26 +222,32 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 	global finished
 	global final_schedule
 
-	debug("call state", teams_remaining, current_depth, depth_needed, current_matchup, prioritized_teams, cant_sit, times_sat, prioritized_refs, call_depth)
+	debug("")
+	debug("")
+	debug("")
+	debug("call state", teams_remaining, current_depth, depth_needed, current_matchup, prioritized_teams, cant_sit, times_sat, call_depth)
 	debug("call depth", call_depth)
 	debug("last_call_at_depth", last_call_at_depth)
 
 	update_last_call_at_depth(call_depth)
+
+	(prioritized_refs, cant_ref) = updateRefPriority(groupingStrat.get_number_of_times_reffed([], matchups_to_print))
 
 	nextGrouping = groupingStrat.getNextGrouping(None, teams_remaining, prioritized_refs)
 
 	while nextGrouping is not None and not finished:
 
 		(new_current_matchup, new_teams_remaining) = update_state(nextGrouping, teams_remaining, current_matchup)
-		new_prioritized_refs = updateRefPriority(groupingStrat.get_dedicated_refs(nextGrouping), prioritized_refs)
 		new_prioritized_teams = update_prioritized_teams(prioritized_teams, new_teams_remaining)
 		
 		if debug_code:
 			print("New Teams Remaining: " + str(new_teams_remaining))
 		
 		if new_group_round_found(new_teams_remaining, teams, cant_sit, new_current_matchup):
+			
 			debug("new matchup found")
 			matchups_to_print.append(new_current_matchup)
+			
 			if (current_depth > depth_hit):
 				depth_hit = current_depth;
 				print("New schedule found with depth: " + str(current_depth) + " or " + str(current_depth * groupingStrat.get_rounds_per_depth()) + " rounds.")
@@ -251,12 +257,15 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 				finished = True
 				final_schedule = list(matchups_to_print)
 
+			
 			(new_cant_sit, new_times_sat) = update_sitting(cant_sit, times_sat, new_teams_remaining)
 
-			backtrack_schedule_depth(new_prioritized_teams, current_depth + 1, depth_needed, [], new_prioritized_teams, new_cant_sit, new_times_sat, new_prioritized_refs, call_depth+1)
+			backtrack_schedule_depth(new_prioritized_teams, current_depth + 1, depth_needed, 	[], 					new_prioritized_teams,	new_cant_sit, 	new_times_sat, 	call_depth + 1)
+			debug("Up Stack", current_depth)
 			matchups_to_print.pop()
 		else:
-			backtrack_schedule_depth(new_teams_remaining, current_depth, depth_needed, new_current_matchup, new_prioritized_teams, cant_sit, times_sat, prioritized_refs, call_depth + 1)
+			backtrack_schedule_depth(new_teams_remaining, 	current_depth, 		depth_needed, 	new_current_matchup, 	new_prioritized_teams, 	cant_sit, 		times_sat, 		call_depth + 1)
+			debug("Up Stack", current_depth)
 		
 		groupingStrat.add_grouping_to_playable(nextGrouping)
 
@@ -291,14 +300,28 @@ def updateWhoSat(new_teams_remaining, times_sat):
 			cant_sit.append(team_num)
 	return cant_sit
 
-def updateRefPriority(new_matchups_refs, prioritized_refs):
-	new_prioritized_refs = list(prioritized_refs)
+def updateRefPriority(number_of_times_reffed):
+	sortable = []
+	for x in range(0, len(number_of_times_reffed)):
+		sortable.append((x, number_of_times_reffed[x]))
 
-	for refs in new_matchups_refs:
-		new_prioritized_refs.remove(refs)
-		new_prioritized_refs.append(refs)
+	debug("sortable", sortable)
+	sortable.sort(key=sort_on_second_element)
+	debug("sortable", sortable)
 
-	return new_prioritized_refs
+	ref_prio = []
+	cant_ref = []
+	for ele in sortable:
+		if ele[1] < max_rounds_reffing:
+			ref_prio.append(ele[0])
+		else:
+			ref_prio.append(ele[1])
+
+	return (ref_prio, cant_ref)
+
+
+def sort_on_second_element(elem):
+	return elem[1]
 
 def print_new_best_state(matchups_to_print):
 	if progressive_print is False:
@@ -310,9 +333,16 @@ def print_new_best_state(matchups_to_print):
 
 def new_group_round_found(new_teams_remaining, teams, cant_sit, new_current_matchup):
 	to_ret = allCourtsFilled(new_current_matchup)
+	debug("All courts filled", to_ret)
 	to_ret = to_ret and sittingTeamsAllowedToSit(new_teams_remaining, cant_sit) 
+	debug("Allowed to sit", to_ret)
 	to_ret = to_ret and noOnePlayingTooMuch(new_current_matchup)
+	debug("Playing too much", to_ret)
 	to_ret = to_ret and noOneRefsTooMuch(new_current_matchup)
+	debug("Too much reffing", to_ret)
+	if to_ret is False:
+		num_times_reffed = groupingStrat.get_number_of_times_reffed(new_current_matchup, matchups_to_print)
+		debug("Num Times Reffed", num_times_reffed)
 	return to_ret
 
 def noOnePlayingTooMuch(new_current_matchup):
@@ -368,7 +398,8 @@ def find_potential_refs(teams_remaining, prioritized_refs, *playing_teams):
 		return list()
 
 	for team in playing_teams:
-		matching.remove(team)
+		if team in matching:
+			matching.remove(team)
 
 	return list(matching)
 
@@ -490,8 +521,8 @@ class GroupingStrategy():
 	def get_matchups_for_grouping(self, grouping):
 		return self.groupingImpl.get_matchups_for_grouping(grouping)
 
-	def get_dedicated_refs(self, grouping):
-		return self.groupingImpl.get_dedicated_refs(grouping)
+	def get_ref_count(self, current_schedule):
+		return self.groupingImpl.get_ref_count(current_schedule)
 
 	def print_number_of_times_played(self, groupings):
 		return self.groupingImpl.print_number_of_times_played(groupings)
@@ -592,9 +623,6 @@ class TripletGroupingStrategy():
 		matchups.append(Matchup(team_names[grouping.teams[0]], team_names[grouping.teams[2]], team_names[grouping.teams[1]]))
 		matchups.append(Matchup(team_names[grouping.teams[1]], team_names[grouping.teams[2]], team_names[grouping.teams[0]]))
 		return matchups
-
-	def get_dedicated_refs(self, grouping):
-		return []
 
 	def print_number_of_times_played(self, groupings):
 		play_count = [0 for i in range(0, num_teams)]
@@ -750,14 +778,14 @@ class DoublesGroupingStrategy():
 def python_call(depth, num_teams, team_names, grouping, team_ref, num_courts):
 	clear_state()
 	init_direct(depth, num_teams, team_names, grouping, team_ref, num_courts)
-	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
+	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, 0)
 	outputCSV()
 	return finished
 
 if __name__ == '__main__':
 	clear_state()
 	init()
-	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, teams, 0)
+	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, 0)
 	if finished:
 		outputCSV()
 	else:

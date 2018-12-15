@@ -19,8 +19,7 @@ class TestStringMethods(unittest.TestCase):
         found = backtrack_schedule.python_call(9, 9, None, "triple", True, 3)
         self.assertEqual(found, True)
 
-    @unittest.skip("demonstrating skipping")
-    def test_success_double_nine_teams_three_courts_nine_rounds(self):
+    def test_tsuccess_double_nine_teams_three_courts_nine_rounds(self):
         found = backtrack_schedule.python_call(9, 9, None, "double", True, 3)
         self.assertEqual(found, True)
 
