@@ -6,7 +6,7 @@ from pathlib import Path
 import sys
 
 #Things for devs to see
-debug_code = False
+debug_code = True
 
 #set by sheet or terminal
 num_teams = 0
@@ -104,8 +104,8 @@ def init_direct(depth, n_teams, t_names, grouping, team_ref, n_courts):
 	else:
 		team_names = t_names
 
-	print_parameters()
 	update_globals()
+	print_parameters()
 
 	for team_number in range(0,len(teams)):
 		playable_teams = list(range(0,len(teams)))
@@ -213,7 +213,7 @@ def update_last_call_at_depth(call_depth):
 	for i in range(call_depth + 1, len(last_call_at_depth)):
 		last_call_at_depth[i] = 0
 
-def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, current_matchup, prioritized_teams, cant_sit, times_sat, call_depth):
+def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, current_matchup, cant_sit, times_sat, call_depth):
 	global depth_hit
 	global matchups_to_print
 	global t1
@@ -224,20 +224,22 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 	debug("")
 	debug("")
 	debug("")
-	debug("call state", teams_remaining, current_depth, depth_needed, current_matchup, prioritized_teams, cant_sit, times_sat, call_depth)
+	debug("call state", teams_remaining, current_depth, depth_needed, current_matchup, cant_sit, times_sat, call_depth)
 	debug("call depth", call_depth)
 	debug("last_call_at_depth", last_call_at_depth)
 
 	update_last_call_at_depth(call_depth)
 
 	(prioritized_refs, cant_ref) = updateRefPriority(groupingStrat.get_number_of_times_reffed([], matchups_to_print))
+	(prioritized_playable_teams, cant_play) = update_playing_priority(groupingStrat.get_number_of_times_played([], matchups_to_print))
 
-	nextGrouping = groupingStrat.getNextGrouping(None, teams_remaining, prioritized_refs)
+	debug("Prioritized Playable Teams", prioritized_playable_teams)
+
+	nextGrouping = groupingStrat.getNextGrouping(None, teams_remaining, prioritized_refs, prioritized_playable_teams)
 
 	while nextGrouping is not None and not finished:
 
 		(new_current_matchup, new_teams_remaining) = update_state(nextGrouping, teams_remaining, current_matchup)
-		new_prioritized_teams = update_prioritized_teams(prioritized_teams, new_teams_remaining)
 		
 		if debug_code:
 			print("New Teams Remaining: " + str(new_teams_remaining))
@@ -259,17 +261,17 @@ def backtrack_schedule_depth(teams_remaining, current_depth, depth_needed, curre
 			
 			(new_cant_sit, new_times_sat) = update_sitting(cant_sit, times_sat, new_teams_remaining)
 
-			backtrack_schedule_depth(new_prioritized_teams, current_depth + 1, depth_needed, 	[], 					new_prioritized_teams,	new_cant_sit, 	new_times_sat, 	call_depth + 1)
+			backtrack_schedule_depth(new_teams_remaining, current_depth + 1, depth_needed, 	[], 					new_cant_sit, 	new_times_sat, 	call_depth + 1)
 			debug("Up Stack", current_depth)
 			matchups_to_print.pop()
 		else:
-			backtrack_schedule_depth(new_teams_remaining, 	current_depth, 		depth_needed, 	new_current_matchup, 	new_prioritized_teams, 	cant_sit, 		times_sat, 		call_depth + 1)
+			backtrack_schedule_depth(new_teams_remaining, 	current_depth, 		depth_needed, 	new_current_matchup, 	cant_sit, 		times_sat, 		call_depth + 1)
 			debug("Up Stack", current_depth)
 		
 		groupingStrat.add_grouping_to_playable(nextGrouping)
 
 		prev_grouping = list(nextGrouping)
-		nextGrouping = groupingStrat.getNextGrouping(prev_grouping, teams_remaining, prioritized_refs)
+		nextGrouping = groupingStrat.getNextGrouping(prev_grouping, teams_remaining, prioritized_refs, prioritized_playable_teams)
 
 	return finished
 
@@ -299,14 +301,29 @@ def updateWhoSat(new_teams_remaining, times_sat):
 			cant_sit.append(team_num)
 	return cant_sit
 
+def update_playing_priority(number_of_times_played):
+	sortable = []
+	for x in range(0, len(number_of_times_played)):
+		sortable.append((x, number_of_times_played[x]))
+
+	sortable.sort(key=sort_on_second_element)
+
+	player_prio = []
+	cant_play = []
+	for ele in sortable:
+		if ele[1] < max_rounds_playing:
+			player_prio.append(ele[0])
+		else:
+			cant_play.append(ele[1])
+
+	return (player_prio, cant_play)
+
 def updateRefPriority(number_of_times_reffed):
 	sortable = []
 	for x in range(0, len(number_of_times_reffed)):
 		sortable.append((x, number_of_times_reffed[x]))
 
-	debug("sortable", sortable)
 	sortable.sort(key=sort_on_second_element)
-	debug("sortable", sortable)
 
 	ref_prio = []
 	cant_ref = []
@@ -499,11 +516,11 @@ class GroupingStrategy():
 	def __init__(self, groupingImpl):
 		self.groupingImpl = groupingImpl
 
-	def getInitialGrouping(self, teams_remaining, prioritized_refs):
-		return self.groupingImpl.getInitialGrouping(teams_remaining, prioritized_refs)
+	def getInitialGrouping(self, teams_remaining, prioritized_refs, prioritized_playable_teams):
+		return self.groupingImpl.getInitialGrouping(teams_remaining, prioritized_refs, prioritized_playable_teams)
 
-	def getNextGrouping(self, prevGrouping, teams_remaining, prioritized_refs):
-		return self.groupingImpl.getNextGrouping(prevGrouping, teams_remaining, prioritized_refs)
+	def getNextGrouping(self, prevGrouping, teams_remaining, prioritized_refs, prioritized_playable_teams):
+		return self.groupingImpl.getNextGrouping(prevGrouping, teams_remaining, prioritized_refs, prioritized_playable_teams)
 
 	def add_grouping_to_playable(self, grouping):
 		return self.groupingImpl.add_grouping_to_playable(grouping)
@@ -540,7 +557,7 @@ class TripletGroupingStrategy():
 	def __init__(self):
 		self.numTeamsInGroup = 3
 	
-	def getInitialGrouping(self, teams_remaining, prioritized_refs):
+	def getInitialGrouping(self, teams_remaining, prioritized_refs, prioritized_playable_teams):
 		for x in range(0,len(teams_remaining)):
 			team1 = teams_remaining[x]
 			teams_to_play_remaining = find_first_playable_team(team1, teams_remaining)
@@ -555,9 +572,9 @@ class TripletGroupingStrategy():
 
 		return None
 
-	def getNextGrouping(self, prevGrouping, teams_remaining, prioritized_refs):
+	def getNextGrouping(self, prevGrouping, teams_remaining, prioritized_refs, prioritized_playable_teams):
 		if prevGrouping == None:
-			return self.getInitialGrouping(teams_remaining, prioritized_refs)
+			return self.getInitialGrouping(teams_remaining, prioritized_refs, prioritized_playable_teams)
 
 		for x in range(prevGrouping[0],len(teams_remaining)):
 			team1 = teams_remaining[x]
@@ -664,12 +681,19 @@ class DoublesGroupingStrategy():
 		#True or False
 		self.teams_ref = teams_ref
 	
-	def getInitialGrouping(self, teams_remaining, prioritized_refs):
-		for x in range(0,len(teams_remaining)):
-			team1 = teams_remaining[x]
-			teams_to_play_remaining = find_first_playable_team(team1, teams_remaining)
+	def getInitialGrouping(self, teams_remaining, prioritized_refs, prioritized_playable_teams):
+		for x in range(0,len(prioritized_playable_teams)):
+			team1 = prioritized_playable_teams[x]
+
+			if team1 not in teams_remaining:
+				break
+
+			teams_to_play_remaining = find_first_playable_team(team1, prioritized_playable_teams)
 			for y in range(0,len(teams_to_play_remaining)):
 				team2 = teams_to_play_remaining[y]
+
+				if team2 not in teams_remaining:
+					break
 				
 				ref_candidates = find_potential_refs(teams_remaining, prioritized_refs, team1, team2)
 				
@@ -680,22 +704,37 @@ class DoublesGroupingStrategy():
 
 		return None
 
-	def getNextGrouping(self, prevGrouping, teams_remaining, prioritized_refs):
-		debug("Previous Grouping", prevGrouping)
+	def getNextGrouping(self, prevGrouping, teams_remaining, prioritized_refs, prioritized_playable_teams):
+		debug("Next Grouping")
+		debug("\tPrevious Grouping", prevGrouping)
+		debug("\tteams_remaining", teams_remaining)
+		debug("\tprioritized_refs", prioritized_refs)
+		debug("\tprioritized_playable_teams", prioritized_playable_teams)
+
+
 		if prevGrouping == None:
 			debug("Get Init")
-			return self.getInitialGrouping(teams_remaining, prioritized_refs)
+			return self.getInitialGrouping(teams_remaining, prioritized_refs, prioritized_playable_teams)
 
-		for x in range(prevGrouping[0],len(teams_remaining)):
-			team1 = teams_remaining[x]
+		for x in range(prevGrouping[0],len(prioritized_playable_teams)):
+			team1 = prioritized_playable_teams[x]
 			debug("Team 1", team1)
 
-			teams_to_play_remaining = find_first_playable_team(team1, teams_remaining)
+			if team1 not in teams_remaining:
+				debug("not in playable teams")
+				break
+
+			teams_to_play_remaining = find_first_playable_team(team1, prioritized_playable_teams)
 			for y in range(prevGrouping[1],len(teams_to_play_remaining)):
 				team2 = teams_to_play_remaining[y]
 				debug("Team 2", team2)
+
+				if team2 not in teams_remaining:
+					debug("not in playable teams")
+					break
 				
 				ref_candidates = find_potential_refs(teams_remaining, prioritized_refs, team1, team2)
+				debug("ref candidates", ref_candidates)
 				
 				for z in range(prevGrouping[2], len(ref_candidates)):
 					ref = ref_candidates[z]
@@ -772,17 +811,20 @@ class DoublesGroupingStrategy():
 		for index in range(0,num_teams):
 			print(team_names[index] + " played " + str(play_count[index]) + " times.")
 
+
+
+
 def python_call(depth, num_teams, team_names, grouping, team_ref, num_courts):
 	clear_state()
 	init_direct(depth, num_teams, team_names, grouping, team_ref, num_courts)
-	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, 0)
+	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], [], times_sat, 0)
 	outputCSV()
 	return finished
 
 if __name__ == '__main__':
 	clear_state()
 	init()
-	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], teams, [], times_sat, 0)
+	finished = backtrack_schedule_depth(teams, 1, depth_needed, [], [], times_sat, 0)
 	if finished:
 		outputCSV()
 	else:
